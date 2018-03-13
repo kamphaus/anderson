@@ -51,6 +51,10 @@ func (c LicenseClassifier) classifyPath(path string, importPath string) (License
 
 			return LicenseTypeUnknown, "Unknown", nil
 		default:
+			if contains(c.Config.Exceptions, importPath) {
+				return LicenseTypeAllowed, "Error", fmt.Errorf("Could not determine license for: %s", importPath)
+			}
+
 			return LicenseTypeUnknown, "Error", fmt.Errorf("Could not determine license for: %s", importPath)
 		}
 	}
