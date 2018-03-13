@@ -55,15 +55,15 @@ func (c LicenseClassifier) classifyPath(path string, importPath string) (License
 		}
 	}
 
+	if contains(c.Config.Exceptions, importPath) {
+		return LicenseTypeAllowed, l.Type, nil
+	}
+
 	if contains(c.Config.Blacklist, l.Type) {
 		return LicenseTypeBanned, l.Type, nil
 	}
 
 	if contains(c.Config.Whitelist, l.Type) {
-		return LicenseTypeAllowed, l.Type, nil
-	}
-
-	if contains(c.Config.Exceptions, importPath) {
 		return LicenseTypeAllowed, l.Type, nil
 	}
 
