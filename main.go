@@ -107,9 +107,11 @@ func loadConfig() (config anderson.Config, missing bool) {
 
 func lister() Lister {
 	if isStdinPipe() {
+		say("Reading dependencies to scan from STDIN")
 		return anderson.StdinLister{}
 	}
-
+	pwd, _ := os.Getwd()
+	say(fmt.Sprintf("Scanning %s ./... for dependencies", pwd))
 	return anderson.PackageLister{}
 }
 
