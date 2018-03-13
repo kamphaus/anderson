@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/cloudfoundry-incubator/candiedyaml"
-	"github.com/mitchellh/colorstring"
-
 	"github.com/contraband/anderson/anderson"
+	"github.com/mitchellh/colorstring"
 )
 
 type License struct {
@@ -60,8 +60,13 @@ func main() {
 			Name: licenseName,
 		}
 	}
-
-	for relPath, license := range classified {
+	keys := make([]string, 0, len(classified))
+	for key := range classified {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	for _, relPath := range keys {
+		license := classified[relPath]
 		var message string
 		var messageLen int
 
