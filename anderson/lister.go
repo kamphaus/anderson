@@ -168,7 +168,7 @@ func (l PackageLister) listDeps(packages []*Package) ([]string, error) {
 			continue
 		}
 
-		if strings.HasPrefix(pkg.ImportPath, currentName) {
+		if strings.HasPrefix(pkg.ImportPath, currentName) && !strings.HasPrefix(pkg.ImportPath, currentName+"/vendor") {
 			continue
 		}
 
