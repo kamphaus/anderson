@@ -37,7 +37,7 @@ func (c LicenseClassifier) classifyPath(path string, importPath string) (License
 	l, err := license.NewFromDir(path)
 
 	if err != nil {
-		switch err.Error() {
+		switch err {
 		case license.ErrNoLicenseFile:
 			if contains(c.Config.Exceptions, importPath) {
 				return LicenseTypeAllowed, "Unknown", nil
