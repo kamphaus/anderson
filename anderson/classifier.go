@@ -39,19 +39,19 @@ func (c LicenseClassifier) classifyPath(path string, importPath string) (License
 	if err != nil {
 		switch err {
 		case license.ErrNoLicenseFile:
-			if contains(c.Config.Exceptions, importPath) {
+			if containsPrefix(c.Config.Exceptions, importPath) {
 				return LicenseTypeAllowed, "Unknown", nil
 			}
 
 			return LicenseTypeNoLicense, "Unknown", nil
 		case license.ErrUnrecognizedLicense:
-			if contains(c.Config.Exceptions, importPath) {
+			if containsPrefix(c.Config.Exceptions, importPath) {
 				return LicenseTypeAllowed, "Unknown", nil
 			}
 
 			return LicenseTypeUnknown, "Unknown", nil
 		default:
-			if contains(c.Config.Exceptions, importPath) {
+			if containsPrefix(c.Config.Exceptions, importPath) {
 				return LicenseTypeAllowed, "Error", fmt.Errorf("Could not determine license for: %s", importPath)
 			}
 
@@ -59,7 +59,7 @@ func (c LicenseClassifier) classifyPath(path string, importPath string) (License
 		}
 	}
 
-	if contains(c.Config.Exceptions, importPath) {
+	if containsPrefix(c.Config.Exceptions, importPath) {
 		return LicenseTypeAllowed, l.Type, nil
 	}
 
@@ -92,6 +92,15 @@ func (c LicenseClassifier) parentPath(path string, hops int) string {
 func contains(haystack []string, needle string) bool {
 	for _, element := range haystack {
 		if element == needle {
+			return true
+		}
+	}
+	return false
+}
+
+func containsPrefix(prefixHaystack []string, needle string) bool {
+	for _, element := range prefixHaystack {
+		if strings.HasPrefix(needle, element) {
 			return true
 		}
 	}
