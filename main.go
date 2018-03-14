@@ -71,7 +71,7 @@ func main() {
 		var messageLen int
 
 		if missingConfig {
-			message = fmt.Sprintf("[white]%s", license.Name)
+			message = fmt.Sprintf("%s", license.Name)
 			messageLen = len(license.Name)
 		} else {
 			message = fmt.Sprintf("(%s) [%s]%10s", license.Name, license.Type.Color(), license.Type.Message())
@@ -84,7 +84,7 @@ func main() {
 			whitespace = strings.Repeat(" ", 80-totalSize)
 		}
 
-		say(fmt.Sprintf("[white]%s%s%s", relPath, whitespace, message))
+		say(fmt.Sprintf("%s%s%s", relPath, whitespace, message))
 	}
 
 	if failed {
